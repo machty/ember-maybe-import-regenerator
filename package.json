@@ -48,7 +48,6 @@
     "regenerator-runtime": "^0.9.5"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "private": true
+    "configPath": "tests/dummy/config"
   }
 }

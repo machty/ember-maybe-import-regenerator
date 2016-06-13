@@ -1,6 +1,16 @@
-# Ember-maybe-import-regenerator
+# ember-maybe-import-regenerator
 
-This README outlines the details of collaborating on this Ember addon.
+This is an addon that'll import the
+[Regenerator](https://github.com/facebook/regenerator)
+in your Ember app, but only if you didn't already set
+`babel.includePolyfill` to true. This is useful for:
+
+1. Apps that want to use ES6 generator functions but don't want to
+   import the large Babel polyfill
+2. Addons that depend on generator functions (or other addons
+   that depend on generator functions) but don't want to
+   force users to have to add `babel.includePolyfill: true` to
+   their config files (like ember-concurrency, ember-power-select).
 
 ## Installation
 
