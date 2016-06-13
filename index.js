@@ -26,7 +26,7 @@ module.exports = {
 
   treeForVendor: function(tree){
     if (this._regeneratorAlreadyIncluded) {
-      return tree;
+      return mergeTrees([tree]);
     }
 
     var regeneratorRuntimePath = path.dirname(require.resolve('regenerator-runtime'));
