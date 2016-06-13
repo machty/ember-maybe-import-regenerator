@@ -24,18 +24,16 @@ module.exports = {
     }
   },
 
-  treeForVendor: function(tree){
+  treeForVendor: function() {
     if (this._regeneratorAlreadyIncluded) {
-      return mergeTrees([tree]);
+      return null;
     }
 
     var regeneratorRuntimePath = path.dirname(require.resolve('regenerator-runtime'));
-    var regeneratorRuntimeTree = new Funnel(this.treeGenerator(regeneratorRuntimePath), {
+    return new Funnel(this.treeGenerator(regeneratorRuntimePath), {
       srcDir: '/',
       destDir: 'regenerator-runtime'
     });
-
-    return mergeTrees([tree, regeneratorRuntimeTree]);
   },
 
   _findApp: function(hostApp) {
