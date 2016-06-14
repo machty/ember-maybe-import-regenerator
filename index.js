@@ -13,9 +13,12 @@ module.exports = {
 
     var hostApp = this._findApp(app);
     this._regeneratorAlreadyIncluded =
+      hostApp.__ember_maybe_import_regenerator_included ||
       hostApp.options &&
       hostApp.options.babel &&
       hostApp.options.babel.includePolyfill;
+
+    hostApp.__ember_maybe_import_regenerator_included = true;
 
     if (!this._regeneratorAlreadyIncluded) {
       hostApp.import('vendor/regenerator-runtime/runtime.js', {
@@ -25,10 +28,6 @@ module.exports = {
   },
 
   treeForVendor: function() {
-    if (this._regeneratorAlreadyIncluded) {
-      return null;
-    }
-
     var regeneratorRuntimePath = path.dirname(require.resolve('regenerator-runtime'));
     return new Funnel(this.treeGenerator(regeneratorRuntimePath), {
       srcDir: '/',
@@ -38,10 +37,15 @@ module.exports = {
 
   _findApp: function(hostApp) {
     var app = this.app || hostApp;
-    while (app.app) {
-      app = app.app;
-    }
+    var parent = this.parent;
+    while (parent.parent) {
+      if (parent.app) {
+        app = parent.app;
+        break;
+      }
 
+      parent = parent.parent;
+    }
     return app;
   }
 };
