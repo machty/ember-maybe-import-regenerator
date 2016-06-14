@@ -11,7 +11,7 @@ module.exports = {
   included: function(app) {
     this._super.included.apply(this, arguments);
 
-    let hostApp = this._findApp(app);
+    var hostApp = this._findApp(app);
     this._regeneratorAlreadyIncluded =
       hostApp.options &&
       hostApp.options.babel &&
