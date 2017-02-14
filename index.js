@@ -4,11 +4,14 @@
 var path = require('path');
 var mergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
+var babelPresetEnv = require('babel-preset-env');
+let plugins = require(path.relative('.', path.join(path.resolve('babel-preset-env'), 'data', 'plugins.json')));
+let regeneratorSupportMatrix = plugins['transform-regenerator'];
 
 module.exports = {
   name: 'ember-maybe-import-regenerator',
 
-  included: function(app) {
+  included(app) {
     this._super.included.apply(this, arguments);
 
     var hostApp = this._findApp(app);
@@ -20,14 +23,25 @@ module.exports = {
 
     hostApp.__ember_maybe_import_regenerator_included = true;
 
-    if (!this._regeneratorAlreadyIncluded) {
-      hostApp.import('vendor/regenerator-runtime/runtime.js', {
-        prepend: true
-      });
+    if (this._regeneratorAlreadyIncluded) {
+      return;
     }
+
+    let targetsSupportGenerators = false;
+    if (hostApp.project.targets) {
+      targetsSupportGenerators = babelPresetEnv.isPluginRequired(hostApp.project.targets, regeneratorSupportMatrix)
+    }
+
+    if (targetsSupportGenerators) {
+      return;
+    }
+
+    hostApp.import('vendor/regenerator-runtime/runtime.js', {
+      prepend: true
+    });
   },
 
-  treeForVendor: function() {
+  treeForVendor() {
     var regeneratorRuntimePath = path.dirname(require.resolve('regenerator-runtime'));
     return new Funnel(this.treeGenerator(regeneratorRuntimePath), {
       srcDir: '/',
@@ -35,7 +49,7 @@ module.exports = {
     });
   },
 
-  _findApp: function(hostApp) {
+  _findApp(hostApp) {
     var app = this.app || hostApp;
     var parent = this.parent;
     while (parent.parent) {
