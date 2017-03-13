@@ -12,11 +12,13 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     var hostApp = this._findApp(app);
+
+    var babelOptions = (hostApp.options && hostApp.options.babel) || {};
+    var emberCLIBabelOptions = (hostApp.options && hostApp.options['ember-cli-babel']) || {};
+
     this._regeneratorAlreadyIncluded =
       hostApp.__ember_maybe_import_regenerator_included ||
-      hostApp.options &&
-      hostApp.options.babel &&
-      hostApp.options.babel.includePolyfill;
+      babelOptions.includePolyfill || emberCLIBabelOptions.includePolyfill;
 
     hostApp.__ember_maybe_import_regenerator_included = true;
 
