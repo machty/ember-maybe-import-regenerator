@@ -16,13 +16,16 @@ module.exports = {
     var babelOptions = (hostApp.options && hostApp.options.babel) || {};
     var emberCLIBabelOptions = (hostApp.options && hostApp.options['ember-cli-babel']) || {};
 
-    this._regeneratorAlreadyIncluded =
+    var babelInstance = this.addons.filter(function(addon) { return addon.name === 'ember-cli-babel'; })[0];
+    var needsRegenerator = babelInstance.isPluginRequired('transform-regenerator');
+
+    var regeneratorAlreadyIncluded =
       hostApp.__ember_maybe_import_regenerator_included ||
       babelOptions.includePolyfill || emberCLIBabelOptions.includePolyfill;
 
     hostApp.__ember_maybe_import_regenerator_included = true;
 
-    if (!this._regeneratorAlreadyIncluded) {
+    if (!regeneratorAlreadyIncluded && needsRegenerator) {
       hostApp.import('vendor/regenerator-runtime/runtime.js', {
         prepend: true
       });
