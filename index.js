@@ -12,15 +12,20 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     var hostApp = this._findApp(app);
-    this._regeneratorAlreadyIncluded =
+
+    var babelOptions = (hostApp.options && hostApp.options.babel) || {};
+    var emberCLIBabelOptions = (hostApp.options && hostApp.options['ember-cli-babel']) || {};
+
+    var babelInstance = this.addons.filter(function(addon) { return addon.name === 'ember-cli-babel'; })[0];
+    var needsRegenerator = babelInstance.isPluginRequired('transform-regenerator');
+
+    var regeneratorAlreadyIncluded =
       hostApp.__ember_maybe_import_regenerator_included ||
-      hostApp.options &&
-      hostApp.options.babel &&
-      hostApp.options.babel.includePolyfill;
+      babelOptions.includePolyfill || emberCLIBabelOptions.includePolyfill;
 
     hostApp.__ember_maybe_import_regenerator_included = true;
 
-    if (!this._regeneratorAlreadyIncluded) {
+    if (!regeneratorAlreadyIncluded && needsRegenerator) {
       hostApp.import('vendor/regenerator-runtime/runtime.js', {
         prepend: true
       });
