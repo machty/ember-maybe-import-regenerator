@@ -1,4 +1,3 @@
-/* jshint node: true */
 'use strict';
 
 var path = require('path');
@@ -6,9 +5,9 @@ var mergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
 
 module.exports = {
-  name: 'ember-maybe-import-regenerator',
+  name: require('./package').name,
 
-  included: function(app) {
+  included(app) {
     this._super.included.apply(this, arguments);
 
     var hostApp = this._findApp(app);
@@ -32,7 +31,7 @@ module.exports = {
     }
   },
 
-  treeForVendor: function() {
+  treeForVendor() {
     var regeneratorRuntimePath = path.dirname(require.resolve('regenerator-runtime'));
     return new Funnel(this.treeGenerator(regeneratorRuntimePath), {
       srcDir: '/',
@@ -40,7 +39,7 @@ module.exports = {
     });
   },
 
-  _findApp: function(hostApp) {
+  _findApp(hostApp) {
     var app = this.app || hostApp;
     var parent = this.parent;
     while (parent.parent) {

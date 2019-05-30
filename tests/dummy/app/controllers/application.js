@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { computed } from '@ember/object';
 
 function * myGen() {
   yield 1;
@@ -6,8 +7,8 @@ function * myGen() {
   yield 3;
 }
 
-export default Ember.Controller.extend({
-  foo: Ember.computed(function() {
+export default Controller.extend({
+  foo: computed(function() {
     let str = "";
     let iter = myGen();
     str += iter.next().value;
