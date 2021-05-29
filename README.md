@@ -30,7 +30,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install my-addon
+ember install ember-maybe-import-regenerator
 ```
 
 
