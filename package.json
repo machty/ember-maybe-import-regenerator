@@ -1,6 +1,6 @@
 {
   "name": "ember-maybe-import-regenerator",
-  "version": "0.1.6",
+  "version": "1.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -8,7 +8,9 @@
   "repository": "https://github.com/machty/ember-maybe-import-regenerator",
   "license": "MIT",
   "author": "",
-  "directories": { "doc": "doc", "test": "tests"
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
   },
   "scripts": {
     "build": "ember build --environment=production",
