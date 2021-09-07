@@ -1,4 +1,4 @@
-# ember-maybe-import-regenerator
+# ember-maybe-import-regenerator [![CI Build](https://github.com/machty/ember-maybe-import-regenerator/actions/workflows/ci-build.yml/badge.svg)](https://github.com/machty/ember-maybe-import-regenerator/actions/workflows/ci-build.yml)
 
 > Uncaught TypeError: regeneratorRuntime is not a function
 
