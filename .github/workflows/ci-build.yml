@@ -1,0 +1,38 @@
+name: CI Build
+
+on:
+  push:
+    branches:
+      - master
+      - 'v*'
+  pull_request:
+  schedule:
+    - cron: '0 3 * * *' # daily, at 3am
+
+jobs:
+  test:
+    timeout-minutes: 10
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+        with:
+          node-version: 10.x
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+
+  floating-dependencies:
+    timeout-minutes: 10
+    name: "Floating Dependencies"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+        with:
+          node-version: 12.x
+      - run: yarn install --no-lockfile
+      - run: yarn test
