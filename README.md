@@ -38,8 +38,7 @@ ember install ember-maybe-import-regenerator
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
-
+This exists to give applications that still service IE11 users and also which to use async/await or generators.
 
 Contributing
 ------------------------------------------------------------------------------
